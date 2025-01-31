@@ -1,0 +1,1115 @@
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+###
+# Create
+# Read
+# Uupdate
+# Delete
+
+## Creare unui indice
+PUT indice_test
+
+## Citirea setarilor legate de indicele respectiv
+GET indice_test
+
+## Citim toti indicii
+GET _cat/indices
+
+## Crearea unui alt indice
+PUT random_test
+
+# Stergearea unui indice
+DELETE indice_test
+
+## Citim toti indicii
+GET _cat/indices
+
+## Citirea setarilor legate de indicele respectiv
+GET random_test
+
+## Citirea elementelor din interior
+GET random_test/_search
+
+## Crearea unei intrari in indicele random_test
+POST random_test/_doc
+{
+  "cheie" : "valoare",
+  "cheie2" : "hello"
+ }
+
+## Citirea elementelor din interior
+GET random_test/_search
+
+## Crearea unei intrari in indicele random_test
+POST random_test/_doc
+{
+  "cheie" : "valoare",
+  "cheie2" : "hello"
+ }
+
+## Citirea elementelor din interior
+GET random_test/_search
+
+## Citirea elementelor din interior
+GET random_test/_search
+{
+  "size": 2
+}
+
+## Crearea unei intrari in indicele random_test
+POST random_test/_doc/1
+{
+  "cheie" : "valoare",
+  "cheie2" : "hello"
+ }
+ 
+## Citirea elementelor din interior
+GET random_test/_search
+
+## Citirea elementelor dupa id
+GET random_test/_doc/utjouZMB_qGzvJe4WKXc
+ 
+## Stergerea elementelor dupa un animit id
+DELETE random_test/_doc/utjouZMB_qGzvJe4WKXc
+
+## Stergerea elementelor dupa un animit id
+DELETE random_test/_doc/1
+
+## Citirea elementelor din interior
+GET random_test/_search
+
+## Cautarea unui element cu un id care nu mai exista
+GET random_test/_doc/1
+
+## Crearea unui document la un anumit id
+POST random_test/_doc/22
+{
+  "vreme" : "buna",
+  "temperatura" : 28,
+  "iarna" : true
+}
+
+## Cautarea unui element cu un id 
+GET random_test/_doc/22
+
+## Crearea unui document la un anumit id
+POST random_test/_doc/22
+{
+  "vreme" : "buna",
+  "iarna" : true
+}
+
+GET random_test/_search
+
+# Crearea unui nou index
+PUT din_popor
+
+## Vizualizarea indecsilor
+GET _cat/indices
+
+GET din_popor
+
+# Crearea unui document cu indexul 1 si o valoare
+POST din_popor/_doc/1
+{
+  "propozitie" : "Ana are mere" 
+}
+
+# Crearea unui document cu indexul 1 si o alta valoare
+POST din_popor/_doc/2
+{
+  "propozitie" : "Ana are nevoie de consultatie" 
+}
+
+# Cautare default
+GET din_popor/_search
+
+
+# Cautare default
+GET din_popor/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+# Cautare 
+GET din_popor/_search
+{
+  "query": {
+    "match": {
+      "propozitie": "Ana"
+    }
+  }
+}
+
+
+
+# Cautare 
+GET din_popor/_search
+{
+  "query": {
+    "match": {
+      "propozitie": "Ana consultatie"
+    }
+  }
+}
+
+# Cautare dupa mai multe cuvinte
+GET din_popor/_search
+{
+  "query": {
+    "match": {
+      "propozitie": "Ana consultatie"
+    }
+  }
+}
+
+GET din_popor/_search
+{
+  "query": {
+    "match": {
+      "propozitie": "Ana consultatie mere"
+    }
+  }
+}
+
+GET din_popor/_search
+{
+  "query": {
+    "match": {
+      "propozitie": "Ana mere consultatie"
+    }
+  }
+}
+
+################################################
+
+DELETE filme
+
+PUT filme
+
+# Citire index gol
+GET filme
+
+POST filme/_doc/1
+{
+  "title" : "Universul Marvel",
+  "year"  : 2001,
+  "genre" : ["Sci-Fi", "Action"]
+}
+
+# Citire index dupa inserarea unui document
+GET filme
+
+GET filme/_mapping
+
+PUT movies
+
+GET movies/_mapping
+
+DELETE movies
+
+# Crearea unui index cu mapping direct
+PUT movies 
+{
+  "mappings": {
+    "properties": {
+      "year": {
+        "type" : "date"
+      }
+    }
+  }
+}
+
+GET movies
+
+# Adaugam un document cu mapare prestabilita
+POST movies/_doc/1
+{
+  "title" : "Universul Marvel",
+  "year"  : 2001,
+  "genre" : ["Sci-Fi", "Action"]
+}
+
+GET movies
+
+GET movies/_mapping
+
+
+PUT new_moviews
+
+PUT new_moviews/_mapping
+{
+  "mappings": {
+    "properties": {
+      "year": {
+        "type" : "date"
+      }
+    }
+  }
+}
+
+
+GET movies/_search
+GET new_moviews/_search
+
+POST _reindex
+{
+  "source": {
+    "index": "movies"
+  },
+  "dest": {
+    "index": "new_moviews"
+  }
+}
+
+GET _cat/indices
+
+GET new_movies/_search
+GET new_movies/_mapping
+
+GET new_moviews
+
+
+DELETE movielens
+
+## Maxim 10.000 valori
+GET movielens/_search
+
+GET movielens/_search
+{
+  "track_total_hits": true
+}
+
+GET movielens/_search
+{
+  "query": {
+    "match": {
+      "title": "Star"
+    }
+  }
+}
+
+GET movielens/_search
+{
+  "query": {
+    "match": {
+      "title": "Star"
+    }
+  },
+  "size": 20
+}
+
+
+GET movielens/_search
+
+# query cu un parametru encodat
+GET movielens/_search?q=star
+
+GET movielens/_search?q=+title="Star"
+
+GET movielens/_search
+{
+  "query": {
+    "match": {
+      "title": "star wars"
+    }
+  },
+  "size": 50
+}
+
+GET movielens/_search
+{
+  "query": {
+    "match": {
+      "title": "wars star"
+    }
+  },
+  "size": 50
+}
+
+## match_phrase - cauta o potrivire exacta
+GET movielens/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": "star wars"
+    }
+  },
+  "size": 50
+}
+
+
+GET movielens/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": "wars star"
+    }
+  },
+  "size": 50
+}
+
+
+## match_phrase - cauta o potrivire exacta
+GET movielens/_search
+{
+  "size": 2, 
+  "from": 2,
+  "query": {
+    "match_phrase": {
+      "title": "star wars"
+    }
+  }
+}
+
+# Paginare - from
+## match_phrase - cauta o potrivire exacta
+GET movielens/_search
+{
+
+  "from": 9,
+  "query": {
+    "match_phrase": {
+      "title": "star wars"
+    }
+  }
+}
+
+## match_phrase - cauta o potrivire exacta
+GET movielens/_search
+{
+
+  "from": 10,
+  "query": {
+    "match": {
+      "title": "star wars"
+    }
+  }
+}
+
+GET movielens/_search
+{
+  "query": {
+    "match_phrase": {
+      "title":  {
+        "slop": 2,
+        "query": "wars star"
+      }
+    } 
+  }
+}
+
+GET _cat/indices
+
+GET movies/_mapping
+
+DELETE movies
+
+PUT movies 
+{
+  "mappings": {
+    "properties": {
+      "year":{
+        "type": "date"
+      },
+      "title":{
+        "type": "text"
+      },
+      "genres":{
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+GET movies/_mapping
+
+DELETE movies/_doc/1
+
+POST movies/_doc/1
+{
+  "title":"Viitorul suna bine",
+  "year":2025,
+  "genres":["Action"]
+}
+
+GET movies/_search
+
+# BULK -  mai multe instructiuni de insert
+POST movies/_bulk
+{"index":{}}
+{"title":"Viitorul suna bine - 2","year":2025,"genres":["Action"]}
+{"index":{"_id":3}}
+{"title":"Viitorul suna bine - 3","year":2026,"genres":["Action"]}
+
+GET movies/_search
+
+# BULK -  mai multe instructiuni de insert
+# fara a specifica indexul in endpoint, ci in instructiune
+POST _bulk
+{"index":{"_index":"movies", "_id":4}}
+{"title":"Viitorul suna bine - 4","year":2025,"genres":["Action"]}
+
+
+
+
+POST movies/_bulk
+{"index" : { "_id":2 }}
+{"genres":["Adventures"],"year":"2024","titlu":"Alegeri gresite"}
+{"index":{}}
+{"id": "131243", "title": "Werner - Gekotzt wird sp\u00e4ter ", "year": "2003", "genres": ["Animation", "Comedy"]}
+
+
+POST _bulk
+{"index" : { "_id":2, "_index":"movies" }}
+{"genres":["Adventures"],"year":"2024","titlu":"Alegeri gresite"}
+
+
+POST movies/_bulk
+{"index":{}}
+{"id": "1", "title": "Toy Story ", "year": "1995", "genres": ["Adventure", "Animation", "Children", "Comedy", "Fantasy"]}
+{"index":{}}
+{"id": "2", "title": "Jumanji ", "year": "1995", "genres": ["Adventure", "Children", "Fantasy"]}
+{"index":{}}
+{"id": "3", "title": "Grumpier Old Men ", "year": "1995", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "4", "title": "Waiting to Exhale ", "year": "1995", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "5", "title": "Father of the Bride Part II ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "6", "title": "Heat ", "year": "1995", "genres": ["Action", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "7", "title": "Sabrina ", "year": "1995", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "8", "title": "Tom and Huck ", "year": "1995", "genres": ["Adventure", "Children"]}
+{"index":{}}
+{"id": "9", "title": "Sudden Death ", "year": "1995", "genres": ["Action"]}
+{"index":{}}
+{"id": "10", "title": "GoldenEye ", "year": "1995", "genres": ["Action", "Adventure", "Thriller"]}
+{"index":{}}
+{"id": "11", "title": "American President, The ", "year": "1995", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "12", "title": "Dracula: Dead and Loving It ", "year": "1995", "genres": ["Comedy", "Horror"]}
+{"index":{}}
+{"id": "13", "title": "Balto ", "year": "1995", "genres": ["Adventure", "Animation", "Children"]}
+{"index":{}}
+{"id": "14", "title": "Nixon ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "15", "title": "Cutthroat Island ", "year": "1995", "genres": ["Action", "Adventure", "Romance"]}
+{"index":{}}
+{"id": "16", "title": "Casino ", "year": "1995", "genres": ["Crime", "Drama"]}
+{"index":{}}
+{"id": "17", "title": "Sense and Sensibility ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "18", "title": "Four Rooms ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "19", "title": "Ace Ventura: When Nature Calls ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "20", "title": "Money Train ", "year": "1995", "genres": ["Action", "Comedy", "Crime", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "21", "title": "Get Shorty ", "year": "1995", "genres": ["Comedy", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "22", "title": "Copycat ", "year": "1995", "genres": ["Crime", "Drama", "Horror", "Mystery", "Thriller"]}
+{"index":{}}
+{"id": "23", "title": "Assassins ", "year": "1995", "genres": ["Action", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "24", "title": "Powder ", "year": "1995", "genres": ["Drama", "Sci-Fi"]}
+{"index":{}}
+{"id": "25", "title": "Leaving Las Vegas ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "26", "title": "Othello ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "27", "title": "Now and Then ", "year": "1995", "genres": ["Children", "Drama"]}
+{"index":{}}
+{"id": "28", "title": "Persuasion ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "29", "title": "City of Lost Children, The ", "year": "Cit\u00e9 des enfants perdus, La ", "genres": ["Adventure", "Drama", "Fantasy", "Mystery", "Sci-Fi"]}
+{"index":{}}
+{"id": "30", "title": "Shanghai Triad ", "year": "Yao a yao yao dao waipo qiao ", "genres": ["Crime", "Drama"]}
+{"index":{}}
+{"id": "31", "title": "Dangerous Minds ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "32", "title": "Twelve Monkeys ", "year": "a.k.a. 12 Monkeys ", "genres": ["Mystery", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "33", "title": "Wings of Courage ", "year": "1995", "genres": ["Adventure", "Romance", "IMAX"]}
+{"index":{}}
+{"id": "34", "title": "Babe ", "year": "1995", "genres": ["Children", "Drama"]}
+{"index":{}}
+{"id": "35", "title": "Carrington ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "36", "title": "Dead Man Walking ", "year": "1995", "genres": ["Crime", "Drama"]}
+{"index":{}}
+{"id": "37", "title": "Across the Sea of Time ", "year": "1995", "genres": ["Documentary", "IMAX"]}
+{"index":{}}
+{"id": "38", "title": "It Takes Two ", "year": "1995", "genres": ["Children", "Comedy"]}
+{"index":{}}
+{"id": "39", "title": "Clueless ", "year": "1995", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "40", "title": "Cry, the Beloved Country ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "41", "title": "Richard III ", "year": "1995", "genres": ["Drama", "War"]}
+{"index":{}}
+{"id": "42", "title": "Dead Presidents ", "year": "1995", "genres": ["Action", "Crime", "Drama"]}
+{"index":{}}
+{"id": "43", "title": "Restoration ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "44", "title": "Mortal Kombat ", "year": "1995", "genres": ["Action", "Adventure", "Fantasy"]}
+{"index":{}}
+{"id": "45", "title": "To Die For ", "year": "1995", "genres": ["Comedy", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "46", "title": "How to Make an American Quilt ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "47", "title": "Seven ", "year": "a.k.a. Se7en ", "genres": ["Mystery", "Thriller"]}
+{"index":{}}
+{"id": "48", "title": "Pocahontas ", "year": "1995", "genres": ["Animation", "Children", "Drama", "Musical", "Romance"]}
+{"index":{}}
+{"id": "49", "title": "When Night Is Falling ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "50", "title": "Usual Suspects, The ", "year": "1995", "genres": ["Crime", "Mystery", "Thriller"]}
+{"index":{}}
+{"id": "51", "title": "Guardian Angel ", "year": "1994", "genres": ["Action", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "52", "title": "Mighty Aphrodite ", "year": "1995", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "53", "title": "Lamerica ", "year": "1994", "genres": ["Adventure", "Drama"]}
+{"index":{}}
+{"id": "54", "title": "Big Green, The ", "year": "1995", "genres": ["Children", "Comedy"]}
+{"index":{}}
+{"id": "55", "title": "Georgia ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "56", "title": "Kids of the Round Table ", "year": "1995", "genres": ["Adventure", "Children", "Fantasy"]}
+{"index":{}}
+{"id": "57", "title": "Home for the Holidays ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "58", "title": "Postman, The ", "year": "Postino, Il ", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "59", "title": "Confessional, The ", "year": "Confessionnal, Le ", "genres": ["Drama", "Mystery"]}
+{"index":{}}
+{"id": "60", "title": "Indian in the Cupboard, The ", "year": "1995", "genres": ["Adventure", "Children", "Fantasy"]}
+{"index":{}}
+{"id": "61", "title": "Eye for an Eye ", "year": "1996", "genres": ["Drama", "Thriller"]}
+{"index":{}}
+{"id": "62", "title": "Mr. Holland's Opus ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "63", "title": "Don't Be a Menace to South Central While Drinking Your Juice in the Hood ", "year": "1996", "genres": ["Comedy", "Crime"]}
+{"index":{}}
+{"id": "64", "title": "Two if by Sea ", "year": "1996", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "65", "title": "Bio-Dome ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "66", "title": "Lawnmower Man 2: Beyond Cyberspace ", "year": "1996", "genres": ["Action", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "67", "title": "Two Bits ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "68", "title": "French Twist ", "year": "Gazon maudit ", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "69", "title": "Friday ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "70", "title": "From Dusk Till Dawn ", "year": "1996", "genres": ["Action", "Comedy", "Horror", "Thriller"]}
+{"index":{}}
+{"id": "71", "title": "Fair Game ", "year": "1995", "genres": ["Action"]}
+{"index":{}}
+{"id": "72", "title": "Kicking and Screaming ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "73", "title": "Mis\u00e9rables, Les ", "year": "1995", "genres": ["Drama", "War"]}
+{"index":{}}
+{"id": "74", "title": "Bed of Roses ", "year": "1996", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "75", "title": "Big Bully ", "year": "1996", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "76", "title": "Screamers ", "year": "1995", "genres": ["Action", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "77", "title": "Nico Icon ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "78", "title": "Crossing Guard, The ", "year": "1995", "genres": ["Action", "Crime", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "79", "title": "Juror, The ", "year": "1996", "genres": ["Drama", "Thriller"]}
+{"index":{}}
+{"id": "80", "title": "White Balloon, The ", "year": "Badkonake sefid ", "genres": ["Children", "Drama"]}
+{"index":{}}
+{"id": "81", "title": "Things to Do in Denver When You're Dead ", "year": "1995", "genres": ["Crime", "Drama", "Romance"]}
+{"index":{}}
+{"id": "82", "title": "Antonia's Line ", "year": "Antonia ", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "83", "title": "Once Upon a Time... When We Were Colored ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "84", "title": "Last Summer in the Hamptons ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "85", "title": "Angels and Insects ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "86", "title": "White Squall ", "year": "1996", "genres": ["Action", "Adventure", "Drama"]}
+{"index":{}}
+{"id": "87", "title": "Dunston Checks In ", "year": "1996", "genres": ["Children", "Comedy"]}
+{"index":{}}
+{"id": "88", "title": "Black Sheep ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "89", "title": "Nick of Time ", "year": "1995", "genres": ["Action", "Thriller"]}
+{"index":{}}
+{"id": "90", "title": "Journey of August King, The ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "92", "title": "Mary Reilly ", "year": "1996", "genres": ["Drama", "Horror", "Thriller"]}
+{"index":{}}
+{"id": "93", "title": "Vampire in Brooklyn ", "year": "1995", "genres": ["Comedy", "Horror", "Romance"]}
+{"index":{}}
+{"id": "94", "title": "Beautiful Girls ", "year": "1996", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "95", "title": "Broken Arrow ", "year": "1996", "genres": ["Action", "Adventure", "Thriller"]}
+{"index":{}}
+{"id": "96", "title": "In the Bleak Midwinter ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "97", "title": "Hate ", "year": "Haine, La ", "genres": ["Crime", "Drama"]}
+{"index":{}}
+{"id": "98", "title": "Shopping ", "year": "1994", "genres": ["Action", "Thriller"]}
+{"index":{}}
+{"id": "99", "title": "Heidi Fleiss: Hollywood Madam ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "100", "title": "City Hall ", "year": "1996", "genres": ["Drama", "Thriller"]}
+{"index":{}}
+{"id": "101", "title": "Bottle Rocket ", "year": "1996", "genres": ["Adventure", "Comedy", "Crime", "Romance"]}
+{"index":{}}
+{"id": "102", "title": "Mr. Wrong ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "103", "title": "Unforgettable ", "year": "1996", "genres": ["Mystery", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "104", "title": "Happy Gilmore ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "105", "title": "Bridges of Madison County, The ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "106", "title": "Nobody Loves Me ", "year": "Keiner liebt mich ", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "107", "title": "Muppet Treasure Island ", "year": "1996", "genres": ["Adventure", "Children", "Comedy", "Musical"]}
+{"index":{}}
+{"id": "108", "title": "Catwalk ", "year": "1996", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "109", "title": "Headless Body in Topless Bar ", "year": "1995", "genres": ["Comedy", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "110", "title": "Braveheart ", "year": "1995", "genres": ["Action", "Drama", "War"]}
+{"index":{}}
+{"id": "111", "title": "Taxi Driver ", "year": "1976", "genres": ["Crime", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "112", "title": "Rumble in the Bronx ", "year": "Hont faan kui ", "genres": ["Action", "Adventure", "Comedy", "Crime"]}
+{"index":{}}
+{"id": "113", "title": "Before and After ", "year": "1996", "genres": ["Drama", "Mystery"]}
+{"index":{}}
+{"id": "114", "title": "Margaret's Museum ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "115", "title": "Happiness Is in the Field ", "year": "Bonheur est dans le pr\u00e9, Le ", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "116", "title": "Anne Frank Remembered ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "117", "title": "Young Poisoner's Handbook, The ", "year": "1995", "genres": ["Crime", "Drama"]}
+{"index":{}}
+{"id": "118", "title": "If Lucy Fell ", "year": "1996", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "119", "title": "Steal Big, Steal Little ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "120", "title": "Race the Sun ", "year": "1996", "genres": ["Adventure", "Comedy", "Drama"]}
+{"index":{}}
+{"id": "121", "title": "Boys of St. Vincent, The ", "year": "1992", "genres": ["Drama"]}
+{"index":{}}
+{"id": "122", "title": "Boomerang ", "year": "1992", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "123", "title": "Chungking Express ", "year": "Chung Hing sam lam ", "genres": ["Drama", "Mystery", "Romance"]}
+{"index":{}}
+{"id": "124", "title": "Star Maker, The ", "year": "Uomo delle stelle, L' ", "genres": ["Drama"]}
+{"index":{}}
+{"id": "125", "title": "Flirting With Disaster ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "126", "title": "NeverEnding Story III, The ", "year": "1994", "genres": ["Adventure", "Children", "Fantasy"]}
+{"index":{}}
+{"id": "127", "title": "Silences of the Palace, The ", "year": "Saimt el Qusur ", "genres": ["Drama"]}
+{"index":{}}
+{"id": "128", "title": "Jupiter's Wife ", "year": "1994", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "129", "title": "Pie in the Sky ", "year": "1996", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "130", "title": "Angela ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "131", "title": "Frankie Starlight ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "132", "title": "Jade ", "year": "1995", "genres": ["Thriller"]}
+{"index":{}}
+{"id": "133", "title": "Nueba Yol ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "134", "title": "Sonic Outlaws ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "135", "title": "Down Periscope ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "136", "title": "From the Journals of Jean Seberg ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "137", "title": "Man of the Year ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "138", "title": "Neon Bible, The ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "139", "title": "Target ", "year": "1995", "genres": ["Action", "Drama"]}
+{"index":{}}
+{"id": "140", "title": "Up Close and Personal ", "year": "1996", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "141", "title": "Birdcage, The ", "year": "1996", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "142", "title": "Shadows ", "year": "Cienie ", "genres": ["Drama"]}
+{"index":{}}
+{"id": "143", "title": "Gospa ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "144", "title": "Brothers McMullen, The ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "145", "title": "Bad Boys ", "year": "1995", "genres": ["Action", "Comedy", "Crime", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "146", "title": "Amazing Panda Adventure, The ", "year": "1995", "genres": ["Adventure", "Children"]}
+{"index":{}}
+{"id": "147", "title": "Basketball Diaries, The ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "148", "title": "Awfully Big Adventure, An ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "149", "title": "Amateur ", "year": "1994", "genres": ["Crime", "Drama", "Thriller"]}
+{"index":{}}
+{"id": "150", "title": "Apollo 13 ", "year": "1995", "genres": ["Adventure", "Drama", "IMAX"]}
+{"index":{}}
+{"id": "151", "title": "Rob Roy ", "year": "1995", "genres": ["Action", "Drama", "Romance", "War"]}
+{"index":{}}
+{"id": "152", "title": "Addiction, The ", "year": "1995", "genres": ["Drama", "Horror"]}
+{"index":{}}
+{"id": "153", "title": "Batman Forever ", "year": "1995", "genres": ["Action", "Adventure", "Comedy", "Crime"]}
+{"index":{}}
+{"id": "154", "title": "Beauty of the Day ", "year": "Belle de jour ", "genres": ["Drama"]}
+{"index":{}}
+{"id": "155", "title": "Beyond Rangoon ", "year": "1995", "genres": ["Adventure", "Drama", "War"]}
+{"index":{}}
+{"id": "156", "title": "Blue in the Face ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "157", "title": "Canadian Bacon ", "year": "1995", "genres": ["Comedy", "War"]}
+{"index":{}}
+{"id": "158", "title": "Casper ", "year": "1995", "genres": ["Adventure", "Children"]}
+{"index":{}}
+{"id": "159", "title": "Clockers ", "year": "1995", "genres": ["Crime", "Drama", "Mystery"]}
+{"index":{}}
+{"id": "160", "title": "Congo ", "year": "1995", "genres": ["Action", "Adventure", "Mystery", "Sci-Fi"]}
+{"index":{}}
+{"id": "161", "title": "Crimson Tide ", "year": "1995", "genres": ["Drama", "Thriller", "War"]}
+{"index":{}}
+{"id": "162", "title": "Crumb ", "year": "1994", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "163", "title": "Desperado ", "year": "1995", "genres": ["Action", "Romance", "Western"]}
+{"index":{}}
+{"id": "164", "title": "Devil in a Blue Dress ", "year": "1995", "genres": ["Crime", "Film-Noir", "Mystery", "Thriller"]}
+{"index":{}}
+{"id": "165", "title": "Die Hard: With a Vengeance ", "year": "1995", "genres": ["Action", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "166", "title": "Doom Generation, The ", "year": "1995", "genres": ["Comedy", "Crime", "Drama"]}
+{"index":{}}
+{"id": "167", "title": "Feast of July ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "168", "title": "First Knight ", "year": "1995", "genres": ["Action", "Drama", "Romance"]}
+{"index":{}}
+{"id": "169", "title": "Free Willy 2: The Adventure Home ", "year": "1995", "genres": ["Adventure", "Children", "Drama"]}
+{"index":{}}
+{"id": "170", "title": "Hackers ", "year": "1995", "genres": ["Action", "Adventure", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "171", "title": "Jeffrey ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "172", "title": "Johnny Mnemonic ", "year": "1995", "genres": ["Action", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "173", "title": "Judge Dredd ", "year": "1995", "genres": ["Action", "Crime", "Sci-Fi"]}
+{"index":{}}
+{"id": "174", "title": "Jury Duty ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "175", "title": "Kids ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "176", "title": "Living in Oblivion ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "177", "title": "Lord of Illusions ", "year": "1995", "genres": ["Horror"]}
+{"index":{}}
+{"id": "178", "title": "Love & Human Remains ", "year": "1993", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "179", "title": "Mad Love ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "180", "title": "Mallrats ", "year": "1995", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "181", "title": "Mighty Morphin Power Rangers: The Movie ", "year": "1995", "genres": ["Action", "Children"]}
+{"index":{}}
+{"id": "182", "title": "Moonlight and Valentino ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "183", "title": "Mute Witness ", "year": "1994", "genres": ["Comedy", "Horror", "Thriller"]}
+{"index":{}}
+{"id": "184", "title": "Nadja ", "year": "1994", "genres": ["Drama"]}
+{"index":{}}
+{"id": "185", "title": "Net, The ", "year": "1995", "genres": ["Action", "Crime", "Thriller"]}
+{"index":{}}
+{"id": "186", "title": "Nine Months ", "year": "1995", "genres": ["Comedy", "Romance"]}
+{"index":{}}
+{"id": "187", "title": "Party Girl ", "year": "1995", "genres": ["Comedy"]}
+{"index":{}}
+{"id": "188", "title": "Prophecy, The ", "year": "1995", "genres": ["Fantasy", "Horror", "Mystery"]}
+{"index":{}}
+{"id": "189", "title": "Reckless ", "year": "1995", "genres": ["Comedy", "Fantasy"]}
+{"index":{}}
+{"id": "190", "title": "Safe ", "year": "1995", "genres": ["Thriller"]}
+{"index":{}}
+{"id": "191", "title": "Scarlet Letter, The ", "year": "1995", "genres": ["Drama", "Romance"]}
+{"index":{}}
+{"id": "192", "title": "Show, The ", "year": "1995", "genres": ["Documentary"]}
+{"index":{}}
+{"id": "193", "title": "Showgirls ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "194", "title": "Smoke ", "year": "1995", "genres": ["Comedy", "Drama"]}
+{"index":{}}
+{"id": "195", "title": "Something to Talk About ", "year": "1995", "genres": ["Comedy", "Drama", "Romance"]}
+{"index":{}}
+{"id": "196", "title": "Species ", "year": "1995", "genres": ["Horror", "Sci-Fi"]}
+{"index":{}}
+{"id": "197", "title": "Stars Fell on Henrietta, The ", "year": "1995", "genres": ["Drama"]}
+{"index":{}}
+{"id": "198", "title": "Strange Days ", "year": "1995", "genres": ["Action", "Crime", "Drama", "Mystery", "Sci-Fi", "Thriller"]}
+{"index":{}}
+{"id": "199", "title": "Umbrellas of Cherbourg, The ", "year": "Parapluies de Cherbourg, Les ", "genres": ["Drama", "Musical", "Romance"]}
+{"index":{}}
+{"id": "200", "title": "Tie That Binds, The ", "year": "1995", "genres": ["Thriller"]}
+{"index":{}}
+
+
+
+GET movies/_search
+
+## Cautare dupa an
+GET movies/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "gte": 2000
+      }
+    }
+  }
+}
+
+
+GET movies/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "gte": 1990,
+        "lte":1995
+      }
+    }
+  }
+}
+
+# Cele pentru copii
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "genres": "Children"
+    }
+  }
+}
+
+## Cele pentru copii, dar fara a le afisa
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "genres": "Children"
+    }
+  },
+  "size":0
+}
+
+## Combinam cele 2 - pentru Copii si intre anii 1990 si 1995
+GET movies/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "year": {
+              "gte": 1990,
+              "lte": 1995
+            }
+          }  
+        },
+        {
+          "match": {
+            "genres": "Children"
+          }
+          
+        }
+      ]
+    }
+  }
+}
+
+
+GET movies/_search
+{
+  "track_total_hits": true
+}
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": "and"
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "genres": "Comedy"
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "gte": 1996,
+        "lte": 1996
+      }
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "gt": 1995,
+        "lt": 1997
+      }
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "year": "1996"
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": "waiting"
+    }
+  }
+}
+
+GET movies/_search
+{
+  "size":100,
+  "query": {
+    "match_all": {}
+  }
+}
+
+POST movies/_doc
+{
+  "title": "Trecutul si viitorul",
+  "year": "1995",
+  "genres": [
+    "Documentary"
+  ]
+}
+
+GET movies/_doc/FyI7u5MByHhxRIjc1gem
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": "viitor"
+    }
+  }
+}
+
+GET movies/_search 
+{
+  "query": {
+    "prefix": {
+      "title": {
+        "value": "viitor"
+      }
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "wildcard": {
+      "title": {
+        "value": "viito*"
+      }
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "regexp": {
+      "title": ".*iitor.*"
+    }
+  }
+}
+
+# Cauta dupa un cuvant, dar daca nu gasesc o potrivire exact, nu intoarece
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": "vijtor"
+    }
+  }
+}
+
+# vitior -> viitor
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": {
+        "query": "vitior",
+        "fuzziness": "AUTO"
+      }
+    }
+  }
+}
+
+GET movies/_search
+{
+  "query": {
+    "match": {
+      "title": {
+        "query": "Senbility",
+        "fuzziness": "AUTO"
+      }
+    }
+  }
+}
+
+
+
+

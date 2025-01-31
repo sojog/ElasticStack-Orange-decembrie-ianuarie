@@ -1,0 +1,1804 @@
+
+## Citim toti indicii
+GET _cat/indices
+
+GET news/_search
+
+GET news/_search
+{
+  "track_total_hits": true
+}
+
+GET news/_mapping
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": "Facebook"
+    }
+  }
+}
+
+## Documente cu Facebook sau Twitter
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": "Facebook Twitter"
+    }
+  }
+}
+
+## Documente cu Facebook sau Twitter sau Instagram
+## Echivalent 1
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": "Facebook Twitter Instagram"
+    }
+  }
+}
+## Documente cu Facebook sau Twitter sau Instagram
+## Echivalent 2
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram"
+      }
+    }
+  }
+}
+
+## Documente cu Facebook sau Twitter sau Instagram
+## Echivalent 3
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "operator": "or"
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "from": 505, 
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "operator": "or"
+      }
+    }
+  }
+}
+
+## Minim 2 din 3
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "minimum_should_match": 2
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "minimum_should_match": 3
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "max_expansions": 1
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram",
+        "max_expansions": 1
+      }
+    }
+  }
+}
+
+## TOTAL 2870
+## 3 sunt 505
+## 2 sunt 787
+## 1 sunt 1578
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "short_description": {
+              "query": "Facebook Twitter Instagram",
+              "minimum_should_match": 2
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "short_description": {
+              "query": "Facebook Twitter Instagram",
+              "operator": "and"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "short_description": {
+              "query": "Facebook Twitter Instagram",
+              "minimum_should_match": 1
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "short_description": {
+              "query": "Facebook Twitter Instagram",
+              "minimum_should_match": 2
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram Google",
+        "minimum_should_match": "75%"
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "Facebook Twitter Instagram Google",
+        "minimum_should_match": 3
+      }
+    }
+  }
+}
+  
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "renewable"
+      }
+    }
+  }
+}
+  
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "renewabl",
+        "fuzziness": 1
+      }
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "short_description": {
+        "query": "renewabl",
+        "fuzziness": "AUTO"
+      }
+    }
+  }
+}
+
+
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Facebook",
+      "fields": [
+          "headline",
+          "short_description"
+        ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "renewable",
+      "fields": [
+          "headline",
+          "short_description"
+        ]
+    }
+  }
+}
+
+## Headline-ul are un boost
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "renewable",
+      "fields": [
+          "headline^2",
+          "short_description"
+        ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "renewable",
+      "fields": [
+          "headline^3",
+          "short_description^2",
+          "category"
+        ]
+    }
+  }
+}
+
+
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Bin Laden",
+      "fields": [
+          "headline",
+          "short_description"
+        ]
+    }
+  }
+}
+
+### Articole despre climate change in headline si short_description scrise de National Geographic
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "climate change",
+      "fields": [
+        "headline", "short_description"
+        ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "match": {
+      "authors": "National Geographic"
+    }
+  }
+}
+
+GET news/_search
+{
+  "size":50,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "climate change",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "match": {
+            "authors": {
+              "query": "National Fellowship",
+              "operator": "and"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+## Articole despre Super Bowl si care nu sunt in SPORTS
+GET news/_search 
+{
+  "query":{
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Super Bowl",
+            "fields": [
+              "headline", "short_description"
+              ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "category": "SPORTS"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+## Articole despre Super Bowl si care sunt in SPORTS
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Super Bowl",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "match": {
+            "category": "SPORTS"
+          }
+        }
+      ]
+    }
+  }
+}
+
+## Articole despre Game of Thrones care sunt din anul 2019
+GET news/_search
+{
+  "track_total_hits": true, 
+  "query": {
+    "multi_match": {
+      "query": "Game of Thrones",
+      "fields": [
+        "short_description", "headline"
+        ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Game of Thrones",
+            "fields": [
+              "short_description",
+              "headline"
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "date": {
+              "gt": "2018-12-31",  
+              "lte": "2019-12-31"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# premiile Grammy care mentioneaza cel putin 2 artisti din 4
+# "Adele", "Eminem", "Snoop Dogg", "Lady Gaga"
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Grammy",
+      "fields": ["headline", "short_description"]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+            "multi_match": {
+            "query": "Music",
+            "fields": ["headline", "short_description"]
+          }
+        },
+        {
+          "match": {
+            "short_description": {
+              "query": "Adele Eminem Snoop Dogg Lady Gaga",
+              "minimum_should_match": 2
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+            "multi_match": {
+            "query": "Music",
+            "fields": ["headline", "short_description"]
+          }
+        },
+        {
+          "match": {
+            "short_description": {
+              "query": "Adele Eminem",
+              "minimum_should_match": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+            "multi_match": {
+            "query": "Music",
+            "fields": ["headline", "short_description"]
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "short_description": "Eminem"
+          }
+        },
+        {
+          "match": {
+            "short_description": "Adele"
+          }
+        },
+        {
+          "match": {
+            "short_description": "Snoop Dogg"
+          }
+        },
+        {
+          "match": {
+            "short_description": "Lady Gaga"
+          }
+        }
+      ],
+      "minimum_should_match": 2
+    }
+  }
+}
+
+
+#1.Gășiți articole despre Donald Trump în contextul NATO
+GET news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Donald Trump",
+      "fields": ["headline", "short_description"]
+    }
+  }
+}
+
+GET news/_search
+{
+  "size": 23, 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Trump",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "NATO",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET news/_mapping
+
+# 2. Găsiți articole despre Donald Trump scrise de Lee Moran
+GET news/_search
+{ 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "authors": "Lee Moran"
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Trump",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ]
+    }
+  }  
+}
+
+
+
+#3. Găsiți toate articolele despre Donald Trump înainte ca el să fie președinte
+GET news/_search 
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Donad Trump",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "date": {
+      
+              "lte": "2017-01-20"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 4.Găsiți toate articolele despre Donald Trump care nu sunt în sfera politică.
+GET news/_search 
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Donald Trump",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "category": "POLITICS"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+#5. Toate articolele despre Michelle Obama, dar nu îl includ pe Barack
+GET news/_search  
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Michelle Obama",
+            "fields": [
+                   "headline",
+                  "short_description"
+              ],
+              "operator": "and"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "multi_match": {
+            "query": "Barack",
+            "fields": [
+                   "headline",
+                  "short_description"
+              ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+#6. Toate articolele care conțin cel puțin 2 surori Kardashian menționate
+## VERSIUNEA 1
+
+GET news/_search   
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Kim Khloe Kylie Kendell Kourtney",
+            "fields": [
+              "headline", "short_description"
+              ],
+            "minimum_should_match": 2
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Kardashian",
+            "fields": [
+                "headline", "short_description"
+              ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+## VERSIUNEA 2
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        
+        {
+          "multi_match": {
+            "query": "Kim Kardashian",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Khloe Kardashian",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Kylie Kardashian",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Kylie Kardashian",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "multi_match": {
+            "query": "Kourtney Kardashian",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ],
+      "minimum_should_match": 2
+    }
+  }
+}
+
+
+#"Kim", "Khloe", "Kylie", "Kroma"
+#7. Găsiți toate articolele despre încălzirea globală din ultimii 2 ani
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "global warming",
+            "fields": [
+                "headline",
+              "short_description"
+              ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "date": {
+              "gte": "now-3y"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+#8. Găsiți articolele despre rețete care conțin "chocolate" în titlu sau descriere
+GET news/_search
+{
+  "query": { 
+    "bool": {
+      "must": [
+        {
+             "multi_match": {
+                "query": "chocolate recipe",
+                "fields": [
+                    "headline",
+                        "short_description"
+                  ]
+              } 
+        },
+        {
+          "match": {
+            "category": "FOOD & DRINK"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# 9. Găsiți toate articolele despre Tesla care nu sunt scrise de Elon Musk
+GET news/_search
+{
+  "query": {
+      "bool": {
+        "must": [
+          {
+            "multi_match": {
+              "query": "Tesla",
+              "fields":  [
+                    "headline",
+                        "short_description"
+                  ]
+            }
+          }
+        ],
+        "must_not": [
+          {
+            "match": {
+              "authors": "Elon Mush"
+            }
+          }
+        ]
+      }
+  }
+}
+
+#10. Găsiți articolele despre filme care au primit Oscar în categoria ENTERTAINMENT
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Oscar",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "match": {
+            "category": "ENTERTAINMENT"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "multi_match": {
+            "query": "Actress Actor",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# 11. Găsiți toate articolele despre pandemie care au fost publicate în 2020
+GET news/_search
+{
+  "query": {
+      "bool": {
+        "must": [
+          {
+            "multi_match": {
+              "query": "pandemic",
+              "fields" :[
+              "headline",
+              "short_description"
+            ],
+              "fuzziness": 3
+            }
+          }
+        ],
+        "filter": [
+          {
+            "range": {
+              "date": {
+                "gte": "2020-01-01",
+                "lte": "2020-12-31"
+              }
+            }
+          }
+        ]
+      }
+    
+  }
+  
+}
+
+
+#12. Găsiți articolele despre sport care menționează atât "Lakers" cât și "NBA"
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Lakers NBA",
+            "operator": "and", 
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "match": {
+            "category": "SPORTS"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+#13. Găsiți toate articolele despre tehnologie care menționează fie Apple, fie Google
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Apple Google",
+            "fields": [
+              "headline",
+              "short_description"
+            ]
+          }
+        },
+        {
+          "match": {
+            "category": "TECH"
+          }
+        }
+      ]
+    }
+  }
+}
+#14. Găsiți articolele despre modă scrise de autori care au "Vogue" în numele lor
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "authors": "Vogue"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "multi_match": {
+            "query": "Vogue",
+            "fields": [
+                "authors"
+              ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET news/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Vogue",
+            "fields": [
+                "authors"
+              ]
+          }
+        },
+        {
+          "match": {
+            "category": "STYLE & BEAUTY"
+          }
+        }
+      ]
+    
+    }
+  }
+}
+
+#15. Găsiți toate articolele despre dezastre naturale din categoria "GREEN"
+GET news/_search 
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "category": "GREEN"
+          }
+        },
+        {
+          "multi_match": {
+            "query": "natural disasters",
+            "fields": [
+               "headline",
+                "short_description"
+              ],
+            "operator": "and"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# Harvard Yale Princeton Columbia Brown Cornell Pennsylvania Dartmouth
+#16. Găsiți articolele care menționează universități din Ivy League
+GET news/_search  
+{
+  "query":
+  {
+    "multi_match": {
+            "query": "Ivy League",
+            "fields": [
+               "headline",
+                "short_description"
+              ],
+            "operator": "and"
+          }
+  }
+}
+
+GET news/_search  
+{
+  "query":
+  {
+    "multi_match": {
+            "query": "Harvard Yale Princeton Columbia Brown Cornell Pennsylvania Dartmouth",
+            "fields": [
+               "headline",
+                "short_description"
+              ],
+              "operator": "or"
+          }
+  }
+}
+
+PUT ucl_finals 
+{
+  "mappings": {
+    "properties": {
+      "season":{
+        "type": "date"
+      },
+      "winner_country":{
+        "type": "keyword"
+      },
+      "winner":{
+        "type": "keyword"
+      },
+      "winner_goals":{
+        "type": "integer"
+      },
+      "runner_up_goals":{
+        "type": "integer"
+      },
+      "runner_up":{
+        "type": "keyword"
+      },
+      "stadium":{
+        "type": "keyword"
+      },
+      "final_city":{
+        "type": "keyword"
+      },
+      "final_country":{
+        "type": "keyword"
+      },
+      "attendance":{
+        "type": "integer"
+      },
+      "winning_way":{
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+GET ucl_finals
+
+PUT _bulk
+{"index": {"_index": "ucl_finals", "_id": "1"}}
+{"season": 1956, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 4, "runner_up_goals": 3, "runner_up": "Reims", "runner_up_country": "France", "stadium": "Parc des Princes", "final_city": "Paris", "final_country": "France", "attendance": 38239, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "2"}}
+{"season": 1957, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Fiorentina", "runner_up_country": "Italy", "stadium": "Santiago Bernab\u00e9u", "final_city": "Madrid", "final_country": "Spain", "attendance": 124000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "3"}}
+{"season": 1958, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 3, "runner_up_goals": 2, "runner_up": "Milan", "runner_up_country": "Italy", "stadium": "Heysel Stadium", "final_city": "Brussels", "final_country": "Belgium", "attendance": 67000, "winning_way": "extra time"}
+{"index": {"_index": "ucl_finals", "_id": "4"}}
+{"season": 1959, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Reims", "runner_up_country": "France", "stadium": "Neckarstadion", "final_city": "Stuttgart", "final_country": "West Germany", "attendance": 72000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "5"}}
+{"season": 1960, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 7, "runner_up_goals": 3, "runner_up": "Eintracht Frankfurt", "runner_up_country": "West Germany", "stadium": "Hampden Park", "final_city": "Glasgow", "final_country": "Scotland", "attendance": 127621, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "6"}}
+{"season": 1961, "winner_country": "Portugal", "winner": "Benfica", "winner_goals": 3, "runner_up_goals": 2, "runner_up": "Barcelona", "runner_up_country": "Spain", "stadium": "Wankdorf Stadium", "final_city": "Bern", "final_country": "Switzerland", "attendance": 26732, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "7"}}
+{"season": 1962, "winner_country": "Portugal", "winner": "Benfica", "winner_goals": 5, "runner_up_goals": 3, "runner_up": "Real Madrid", "runner_up_country": "Spain", "stadium": "Olympisch Stadion", "final_city": "Amsterdam", "final_country": "Netherlands", "attendance": 61257, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "8"}}
+{"season": 1963, "winner_country": "Italy", "winner": "Milan", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Benfica", "runner_up_country": "Portugal", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 45715, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "9"}}
+{"season": 1964, "winner_country": "Italy", "winner": "Inter Milan", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Real Madrid", "runner_up_country": "Spain", "stadium": "Praterstadion", "final_city": "Vienna", "final_country": "Austria", "attendance": 71333, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "10"}}
+{"season": 1965, "winner_country": "Italy", "winner": "Inter Milan", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Benfica", "runner_up_country": "Portugal", "stadium": "San Siro", "final_city": "Milan", "final_country": "Italy", "attendance": 89000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "11"}}
+{"season": 1966, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Partizan", "runner_up_country": "Yugoslavia", "stadium": "Heysel Stadium", "final_city": "Brussels", "final_country": "Belgium", "attendance": 46745, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "12"}}
+{"season": 1967, "winner_country": "Scotland", "winner": "Celtic", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Inter Milan", "runner_up_country": "Italy", "stadium": "Est\u00e1dio Nacional", "final_city": "Lisbon", "final_country": "Portugal", "attendance": 45000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "13"}}
+{"season": 1968, "winner_country": "England", "winner": "Manchester United", "winner_goals": 4, "runner_up_goals": 1, "runner_up": "Benfica", "runner_up_country": "Portugal", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 92225, "winning_way": "extra time"}
+{"index": {"_index": "ucl_finals", "_id": "14"}}
+{"season": 1969, "winner_country": "Italy", "winner": "Milan", "winner_goals": 4, "runner_up_goals": 1, "runner_up": "Ajax", "runner_up_country": "Netherlands", "stadium": "Santiago Bernab\u00e9u", "final_city": "Madrid", "final_country": "Spain", "attendance": 31782, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "15"}}
+{"season": 1970, "winner_country": "Netherlands", "winner": "Feyenoord", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Celtic", "runner_up_country": "Scotland", "stadium": "San Siro", "final_city": "Milan", "final_country": "Italy", "attendance": 53187, "winning_way": "extra time"}
+{"index": {"_index": "ucl_finals", "_id": "16"}}
+{"season": 1971, "winner_country": "Netherlands", "winner": "Ajax", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Panathinaikos", "runner_up_country": "Greece", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 83179, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "17"}}
+{"season": 1972, "winner_country": "Netherlands", "winner": "Ajax", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Inter Milan", "runner_up_country": "Italy", "stadium": "De Kuip", "final_city": "Rotterdam", "final_country": "Netherlands", "attendance": 61354, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "18"}}
+{"season": 1973, "winner_country": "Netherlands", "winner": "Ajax", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Red Star Stadium", "final_city": "Belgrade", "final_country": "SFR Yugoslavia", "attendance": 89484, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "19"}}
+{"season": 1974, "winner_country": "West Germany", "winner": "Bayern Munich", "winner_goals": 4, "runner_up_goals": 0, "runner_up": "Atl\u00e9tico Madrid", "runner_up_country": "Spain", "stadium": "Heysel Stadium", "final_city": "Brussels", "final_country": "Belgium", "attendance": 23325, "winning_way": "replay"}
+{"index": {"_index": "ucl_finals", "_id": "20"}}
+{"season": 1975, "winner_country": "West Germany", "winner": "Bayern Munich", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Leeds United", "runner_up_country": "England", "stadium": "Parc des Princes", "final_city": "Paris", "final_country": "France", "attendance": 48374, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "21"}}
+{"season": 1976, "winner_country": "West Germany", "winner": "Bayern Munich", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Saint-\u00c9tienne", "runner_up_country": "France", "stadium": "Hampden Park", "final_city": "Glasgow", "final_country": "Scotland", "attendance": 54864, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "22"}}
+{"season": 1977, "winner_country": "England", "winner": "Liverpool", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Borussia M\u00f6nchengladbach", "runner_up_country": "West Germany", "stadium": "Stadio Olimpico", "final_city": "Rome", "final_country": "Italy", "attendance": 57000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "23"}}
+{"season": 1978, "winner_country": "England", "winner": "Liverpool", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Club Brugge", "runner_up_country": "Belgium", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 92500, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "24"}}
+{"season": 1979, "winner_country": "England", "winner": "Nottingham Forest", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Malm\u00f6 FF", "runner_up_country": "Sweden", "stadium": "Olympiastadion", "final_city": "Munich", "final_country": "West Germany", "attendance": 57500, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "25"}}
+{"season": 1980, "winner_country": "England", "winner": "Nottingham Forest", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Hamburger SV", "runner_up_country": "West Germany", "stadium": "Santiago Bernab\u00e9u", "final_city": "Madrid", "final_country": "Spain", "attendance": 51000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "26"}}
+{"season": 1981, "winner_country": "England", "winner": "Liverpool", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Real Madrid", "runner_up_country": "Spain", "stadium": "Parc des Princes", "final_city": "Paris", "final_country": "France", "attendance": 48360, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "27"}}
+{"season": 1982, "winner_country": "England", "winner": "Aston Villa", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Bayern Munich", "runner_up_country": "West Germany", "stadium": "De Kuip", "final_city": "Rotterdam", "final_country": "Netherlands", "attendance": 46000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "28"}}
+{"season": 1983, "winner_country": "West Germany", "winner": "Hamburger SV", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Olympic Stadium", "final_city": "Athens", "final_country": "Greece", "attendance": 73500, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "29"}}
+{"season": 1984, "winner_country": "England", "winner": "Liverpool", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Roma", "runner_up_country": "Italy", "stadium": "Stadio Olimpico", "final_city": "Rome", "final_country": "Italy", "attendance": 69693, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "30"}}
+{"season": 1985, "winner_country": "Italy", "winner": "Juventus", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Liverpool", "runner_up_country": "England", "stadium": "Heysel Stadium", "final_city": "Brussels", "final_country": "Belgium", "attendance": 58000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "31"}}
+{"season": 1986, "winner_country": "Romania", "winner": "Steaua Bucure\u0219ti", "winner_goals": 0, "runner_up_goals": 0, "runner_up": "Barcelona", "runner_up_country": "Spain", "stadium": "Ram\u00f3n S\u00e1nchez Pizju\u00e1n", "final_city": "Seville", "final_country": "Spain", "attendance": 70000, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "32"}}
+{"season": 1987, "winner_country": "Portugal", "winner": "Porto", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Bayern Munich", "runner_up_country": "West Germany", "stadium": "Praterstadion", "final_city": "Vienna", "final_country": "Austria", "attendance": 57500, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "33"}}
+{"season": 1988, "winner_country": "Netherlands", "winner": "PSV Eindhoven", "winner_goals": 0, "runner_up_goals": 0, "runner_up": "Benfica", "runner_up_country": "Portugal", "stadium": "Neckarstadion", "final_city": "Stuttgart", "final_country": "West Germany", "attendance": 68000, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "34"}}
+{"season": 1989, "winner_country": "Italy", "winner": "Milan", "winner_goals": 4, "runner_up_goals": 0, "runner_up": "Steaua Bucure\u0219ti", "runner_up_country": "Romania", "stadium": "Camp Nou", "final_city": "Barcelona", "final_country": "Spain", "attendance": 97000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "35"}}
+{"season": 1990, "winner_country": "Italy", "winner": "Milan", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Benfica", "runner_up_country": "Portugal", "stadium": "Praterstadion", "final_city": "Vienna", "final_country": "Austria", "attendance": 57558, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "36"}}
+{"season": 1991, "winner_country": "Yugoslavia", "winner": "Red Star Belgrade", "winner_goals": 0, "runner_up_goals": 0, "runner_up": "Marseille", "runner_up_country": "France", "stadium": "Stadio San Nicola", "final_city": "Bari", "final_country": "Italy", "attendance": 56000, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "37"}}
+{"season": 1992, "winner_country": "Spain", "winner": "Barcelona", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Sampdoria", "runner_up_country": "Italy", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 70827, "winning_way": "extra time"}
+{"index": {"_index": "ucl_finals", "_id": "38"}}
+{"season": 1993, "winner_country": "France", "winner": "Marseille", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Milan", "runner_up_country": "Italy", "stadium": "Olympiastadion", "final_city": "Munich", "final_country": "Germany", "attendance": 64400, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "39"}}
+{"season": 1994, "winner_country": "Italy", "winner": "Milan", "winner_goals": 4, "runner_up_goals": 0, "runner_up": "Barcelona", "runner_up_country": "Spain", "stadium": "Olympic Stadium", "final_city": "Athens", "final_country": "Greece", "attendance": 70000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "40"}}
+{"season": 1995, "winner_country": "Netherlands", "winner": "Ajax", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Milan", "runner_up_country": "Italy", "stadium": "Ernst-Happel-Stadion", "final_city": "Vienna", "final_country": "Austria", "attendance": 49730, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "41"}}
+{"season": 1996, "winner_country": "Italy", "winner": "Juventus", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Ajax", "runner_up_country": "Netherlands", "stadium": "Stadio Olimpico", "final_city": "Rome", "final_country": "Italy", "attendance": 70000, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "42"}}
+{"season": 1997, "winner_country": "Germany", "winner": "Borussia Dortmund", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Olympiastadion", "final_city": "Munich", "final_country": "Germany", "attendance": 59000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "43"}}
+{"season": 1998, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Amsterdam Arena", "final_city": "Amsterdam", "final_country": "Netherlands", "attendance": 48500, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "44"}}
+{"season": 1999, "winner_country": "England", "winner": "Manchester United", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Bayern Munich", "runner_up_country": "Germany", "stadium": "Camp Nou", "final_city": "Barcelona", "final_country": "Spain", "attendance": 90245, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "45"}}
+{"season": 192000, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 3, "runner_up_goals": 0, "runner_up": "Valencia", "runner_up_country": "Spain", "stadium": "Stade de France", "final_city": "Saint-Denis", "final_country": "France", "attendance": 80000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "46"}}
+{"season": 2001, "winner_country": "Germany", "winner": "Bayern Munich", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Valencia", "runner_up_country": "Spain", "stadium": "San Siro", "final_city": "Milan", "final_country": "Italy", "attendance": 71500, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "47"}}
+{"season": 2002, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Bayer Leverkusen", "runner_up_country": "Germany", "stadium": "Hampden Park", "final_city": "Glasgow", "final_country": "Scotland", "attendance": 50499, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "48"}}
+{"season": 2003, "winner_country": "Italy", "winner": "Milan", "winner_goals": 0, "runner_up_goals": 0, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Old Trafford", "final_city": "Manchester", "final_country": "England", "attendance": 62315, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "49"}}
+{"season": 2004, "winner_country": "Portugal", "winner": "Porto", "winner_goals": 3, "runner_up_goals": 0, "runner_up": "Monaco", "runner_up_country": "France", "stadium": "Arena AufSchalke", "final_city": "Gelsenkirchen", "final_country": "Germany", "attendance": 53053, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "50"}}
+{"season": 2005, "winner_country": "England", "winner": "Liverpool", "winner_goals": 3, "runner_up_goals": 3, "runner_up": "Milan", "runner_up_country": "Italy", "stadium": "Atat\u00fcrk Olympic Stadium", "final_city": "Istanbul", "final_country": "Turkey", "attendance": 69000, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "51"}}
+{"season": 2006, "winner_country": "Spain", "winner": "Barcelona", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Arsenal", "runner_up_country": "England", "stadium": "Stade de France", "final_city": "Saint-Denis", "final_country": "France", "attendance": 79610, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "52"}}
+{"season": 2007, "winner_country": "Italy", "winner": "Milan", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Liverpool", "runner_up_country": "England", "stadium": "Olympic Stadium", "final_city": "Athens", "final_country": "Greece", "attendance": 63000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "53"}}
+{"season": 2008, "winner_country": "England", "winner": "Manchester United", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Chelsea", "runner_up_country": "England", "stadium": "Luzhniki Stadium", "final_city": "Moscow", "final_country": "Russia", "attendance": 67310, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "54"}}
+{"season": 2009, "winner_country": "Spain", "winner": "Barcelona", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Manchester United", "runner_up_country": "England", "stadium": "Stadio Olimpico", "final_city": "Rome", "final_country": "Italy", "attendance": 62467, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "55"}}
+{"season": 2010, "winner_country": "Italy", "winner": "Inter Milan", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Bayern Munich", "runner_up_country": "Germany", "stadium": "Santiago Bernab\u00e9u", "final_city": "Madrid", "final_country": "Spain", "attendance": 73490, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "56"}}
+{"season": 2011, "winner_country": "Spain", "winner": "Barcelona", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Manchester United", "runner_up_country": "England", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 87695, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "57"}}
+{"season": 2012, "winner_country": "England", "winner": "Chelsea", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Bayern Munich", "runner_up_country": "Germany", "stadium": "Allianz Arena", "final_city": "Munich", "final_country": "Germany", "attendance": 62500, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "58"}}
+{"season": 2013, "winner_country": "Germany", "winner": "Bayern Munich", "winner_goals": 2, "runner_up_goals": 1, "runner_up": "Borussia Dortmund", "runner_up_country": "Germany", "stadium": "Wembley Stadium", "final_city": "London", "final_country": "England", "attendance": 86298, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "59"}}
+{"season": 2014, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 4, "runner_up_goals": 1, "runner_up": "Atl\u00e9tico Madrid", "runner_up_country": "Spain", "stadium": "Est\u00e1dio da Luz", "final_city": "Lisbon", "final_country": "Portugal", "attendance": 60976, "winning_way": "extra time"}
+{"index": {"_index": "ucl_finals", "_id": "60"}}
+{"season": 2015, "winner_country": "Spain", "winner": "Barcelona", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Olympiastadion", "final_city": "Berlin", "final_country": "Germany", "attendance": 70442, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "61"}}
+{"season": 2016, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 1, "runner_up_goals": 1, "runner_up": "Atl\u00e9tico Madrid", "runner_up_country": "Spain", "stadium": "San Siro", "final_city": "Milan", "final_country": "Italy", "attendance": 71942, "winning_way": "penalty"}
+{"index": {"_index": "ucl_finals", "_id": "62"}}
+{"season": 2017, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 4, "runner_up_goals": 1, "runner_up": "Juventus", "runner_up_country": "Italy", "stadium": "Millennium Stadium", "final_city": "Cardiff", "final_country": "Wales", "attendance": 65842, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "63"}}
+{"season": 2018, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 3, "runner_up_goals": 1, "runner_up": "Liverpool", "runner_up_country": "England", "stadium": "NSC Olimpiyskiy Stadium", "final_city": "Kyiv", "final_country": "Ukraine", "attendance": 61561, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "64"}}
+{"season": 2019, "winner_country": "England", "winner": "Liverpool", "winner_goals": 2, "runner_up_goals": 0, "runner_up": "Tottenham Hotspur", "runner_up_country": "England", "stadium": "Metropolitano Stadium", "final_city": "Madrid", "final_country": "Spain", "attendance": 63272, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "65"}}
+{"season": 2020, "winner_country": "Germany", "winner": "Bayern Munich", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Paris Saint-Germain", "runner_up_country": "France", "stadium": "Est\u00e1dio da Luz", "final_city": "Lisbon", "final_country": "Portugal", "attendance": 0, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "66"}}
+{"season": 2021, "winner_country": "England", "winner": "Chelsea", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Manchester City", "runner_up_country": "England", "stadium": "Est\u00e1dio do Drag\u00e3o", "final_city": "Porto", "final_country": "Portugal", "attendance": 14110, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "67"}}
+{"season": 2022, "winner_country": "Spain", "winner": "Real Madrid", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Liverpool", "runner_up_country": "England", "stadium": "Stade de France", "final_city": "Saint-Denis", "final_country": "France", "attendance": 75000, "winning_way": "normal time"}
+{"index": {"_index": "ucl_finals", "_id": "68"}}
+{"season": 2023, "winner_country": "England", "winner": "Manchester City", "winner_goals": 1, "runner_up_goals": 0, "runner_up": "Inter Milan", "runner_up_country": "Italy", "stadium": "Atat\u00fcrk Olympic Stadium", "final_city": "Istanbul", "final_country": "Turkey", "attendance": 71412, "winning_way": "normal time"}
+
+## Agregare
+GET ucl_finals/_search
+{
+  "aggs": {
+    "agregarea_mea": {
+      "terms": {
+        "field": "winner",
+        "size": 16
+      }
+    }
+  }
+}
+
+GET news/_mapping
+
+## Agregare pe non-keyword
+GET news/_search
+{
+  "size": 0, 
+  "aggs": {
+    "agregare_non_keyword": {
+      "terms": {
+        "field": "category",
+        "size": 20
+      }
+    }
+  }
+}
+
+## Cerere + agregare
+GET news/_search
+{
+  "query": {
+    "match": {
+      "headline": "Donald Trump"
+    }
+  },
+  "aggs": {
+    "agregare_categorii_donald_trump": {
+      "terms": {
+        "field": "category",
+        "size": 30
+      }
+    }
+  }
+}
+
+
+GET news/_search
+{
+  "aggs": {
+    "agregare_categorii_donald_trump": {
+      "terms": {
+        "field": "category",
+        "size": 30
+      }
+    }
+  },
+  "query": {
+    "match": {
+      "headline": "Donald Trump"
+    }
+  },
+  "size":0
+}
+
+
+GET news/_search
+{
+  "size": 0, 
+  "aggs": {
+    "agregare_mamaliga": {
+      "terms": {
+        "field": "category",
+        "size": 20
+      }
+    }
+  }
+}
+
+
+
+GET ucl_finals/_search
+{
+  "query": {
+    "range": {
+      "season": {
+        "gte": 1986
+      }
+    }
+  }
+}
+
+# Prezenta medie la finale
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "prezenta_la_finale": {
+      "avg": {
+        "field": "attendance"
+      }
+    }
+  }
+}
+
+## Prezenta cea mai mica 
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "prezenta_la_finale": {
+      "min": {
+        "field": "attendance"
+      }
+    }
+  }
+}
+
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "prezenta_la_finale": {
+      "max": {
+        "field": "attendance"
+      }
+    }
+  }
+}
+
+
+GET ucl_finals/_search
+{
+  "size":1,
+  "sort": [
+    {
+      "attendance": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+
+## Agreagarea este case sensitive
+GET news/_search
+{
+  "size": 0, 
+  "aggs": {
+    "agregare_mamaliga": {
+      "terms": {
+        "field": "category",
+        "size": 20
+      }
+    }
+  }
+}
+
+
+GET news/_search  
+{
+  "query":
+  {
+    "multi_match": {
+            "query": "Ivy League",
+            "fields": [
+               "headline",
+                "short_description"
+              ],
+            "operator": "and"
+          }
+  }
+}
+
+## Cautarea dupa text este case insensitive
+GET news/_search  
+{
+  "query":
+  {
+    "multi_match": {
+            "query": "ivy league",
+            "fields": [
+               "headline",
+                "short_description"
+              ],
+            "operator": "and"
+          }
+  }
+}
+
+GET ucl_finals/_mapping
+
+GET ucl_finals/_search
+{
+  "size":1,
+  "sort": [
+    {
+      "winner_goals": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+#1.  Câte finale au fost în extra time și câte în normal time?
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "extra_vs_normal": {
+      "terms": {
+        "field": "winning_way",
+        "size": 10
+      }
+    }
+  }
+}
+
+GET ucl_finals/_search
+{
+  "query": {
+    "match": {
+      "winning_way": "replay"
+    }
+  }
+}
+
+
+#2. Care sunt țările în care s-au disputat finale?
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "tari_cu_finale_disputate": {
+      "terms": {
+        "field": "final_country",
+        "size": 13
+      }
+    }
+  }
+}
+
+# 3. Cine a câștigat de cele mai multe ori?
+GET ucl_finals/_search
+{
+  "size": 1, 
+  "aggs": {
+    "cele mai multe ori": {
+      "terms": {
+        "field": "winner",
+        "size": 1
+      }
+    }
+  }
+}
+
+# 4, Cine are al doilea cele mai multe trofee?
+GET ucl_finals/_search
+{
+  "size": 1, 
+  "aggs": {
+    "cele mai multe ori": {
+      "terms": {
+        "field": "winner",
+        "size": 2
+      }
+    }
+  }
+}
+#5. Care sunt țările cu cele mai multe finale jucate in tara respectiva?
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "cele mai multe ori": {
+      "terms": {
+        "field": "final_country",
+        "size": 3
+      }
+    }
+  }
+}
+
+#6. Ce echipă a marcat cele mai multe goluri în finale?
+GET ucl_finals/_search
+{
+  "size": 0,  
+  "aggs": {
+    "cele mai multe ori": {
+      "terms": {
+        "field": "winner_goals",
+        "size": 3
+      }
+    }
+  }
+}
+
+GET ucl_finals/_search 
+{
+  "size":0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "winner",
+        "size": 10
+      }
+    }
+  }
+}
+
+GET ucl_finals/_search 
+{
+  "size":0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "winner",
+        "size": 10
+      },
+      "aggs": {
+        "goluri_marcate": {
+          "sum": {
+            "field": "winner_goals"
+          }
+        }
+      }
+    }
+  }
+}
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "query": {
+    "match": {
+      "winner": "Real Madrid"
+    }
+  },
+  "aggs": {
+    "goluri_marcate": {
+      "sum": {
+        "field": "winner_goals"
+      }
+    }
+  }
+}
+
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "query": {
+    "match": {
+      "runner_up": "Real Madrid"
+    }
+  },
+  "aggs": {
+    "goluri_marcate": {
+      "sum": {
+        "field": "runner_up_goals"
+      }
+    }
+  }
+}
+
+
+# 7. Cine a pierdut cele mai multe finale?
+GET ucl_finals/_search
+{
+  "size": 0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "runner_up",
+        "size": 10
+      }
+    }
+  }
+}
+      
+
+# 8. Care este numărul de oameni mediu la finale?
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "prezenta_la_finale": {
+      "avg": {
+        "field": "attendance"
+      }
+    }
+  }
+}
+
+#9. Câte finale au fost câștigate în fiecare țară?
+GET ucl_finals/_search
+{
+  "size": 0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "winner_country",
+        "size": 10
+      }
+    }
+  }
+}
+
+#10.  Care sunt stadioanele care au găzduit cele mai multe finale
+GET ucl_finals/_search
+{
+  "size": 0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "stadium",
+        "size": 10
+      }
+    }
+  }
+}
+
+#11. Care sunt orașele care au găzduit cele mai multe finale?
+GET ucl_finals/_search
+{
+  "size": 0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "final_city",
+        "size": 27
+      }
+    }
+  }
+}
+GET ucl_finals/_search
+{
+  "size": 0,
+  "aggs": {
+    "castigatoare": {
+      "terms": {
+        "field": "final_country",
+        "size": 27
+      }
+    }
+  }
+}
+
+
+
+#12. Care este numărul total de goluri marcate în toate finalele?
+GET ucl_finals/_search
+{
+  "query": {
+    "match": {
+      "final_country": "Scotland"
+    }
+  }
+}
+
+GET ucl_finals/_search
+{
+  "size": 0, 
+  "aggs": {
+    "goluri_marcate_gazde": {
+      "sum": {
+        "field": "winner_goals"
+      }
+    },
+    "goluri_marcate_pierzatori": {
+      "sum": {
+        "field": "runner_up_goals"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+
+
+GET http://localhost:9200/_cluster/health
+
+GET localhost:9200/_cat/indices
+
+PUT http://localhost:9200/sosete_ieftine
+
+PUT http://localhost:9200/sosete
+
+DELETE http://localhost:9200/sosete
+
+POST http://localhost:9200/sosete_ieftine/_doc
+{
+    "nume" : "Soseta Fermecata",
+    "pret" : 4,
+    "in_stoc" : 10 
+}
+
+GET http://localhost:9200/sosete_ieftine/_doc/9dfIlpMB6ptqSU1HjP6t
+
+POST http://localhost:9200/sosete_ieftine/_doc/1
+{
+    "nume" : "Soseta Fermecata cu id nr 1",
+    "pret" : 4,
+    "in_stoc" : 10 
+}
+
+GET http://localhost:9200/sosete_ieftine/_doc/1
+
+GET http://localhost:9200/sosete_ieftine/_search
+
+PUT http://localhost:9200/locuri
+
+POST http://localhost:9200/locuri/_doc/2
+{
+    "nume" : "Cairo",
+    "tara" : "Egipt",
+    "frumos" : true
+}
+
+GET http://localhost:9200/locuri/_search

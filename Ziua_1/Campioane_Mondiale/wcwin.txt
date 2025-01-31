@@ -1,0 +1,44 @@
+    {"index":{"_id":"5"}}
+    {"country": "Uruguay", "year": 1930}
+    {"index":{"_id":"5"}}
+    {"country": "Italy", "year": 1934}
+    {"index":{"_id":"5"}}
+    {"country": "Italy", "year": 1938}
+    {"index":{"_id":"5"}}
+    {"country": "Uruguay", "year": 1950}
+    {"index":{"_id":"5"}}
+    {"country": "West Germany", "year": 1954}
+    {"index":{"_id":"5"}}
+    {"country": "Brazil", "year": 1958}
+    {"index":{"_id":"5"}}
+    {"country": "Brazil", "year": 1962}
+    {"index":{"_id":"5"}}
+    {"country": "England", "year": 1966}
+    {"index":{"_id":"5"}}
+    {"country": "Brazil", "year": 1970}
+    {"index":{"_id":"5"}}
+    {"country": "West Germany", "year": 1974}
+    {"index":{"_id":"5"}}
+    {"country": "Argentina", "year": 1978}
+    {"index":{"_id":"5"}}
+    {"country": "Italy", "year": 1982}
+    {"index":{"_id":"5"}}
+    {"country": "Argentina", "year": 1986}
+    {"index":{"_id":"5"}}
+    {"country": "West Germany", "year": 1990}
+    {"index":{"_id":"5"}}
+    {"country": "Brazil", "year": 1994}
+    {"index":{"_id":"5"}}
+    {"country": "France", "year": 1998}
+    {"index":{"_id":"5"}}
+    {"country": "Brazil", "year": 2002}
+    {"index":{"_id":"5"}}
+    {"country": "Italy", "year": 2006}
+    {"index":{"_id":"5"}}
+    {"country": "Spain", "year": 2010}
+    {"index":{"_id":"5"}}
+    {"country": "Germany", "year": 2014}
+    {"index":{"_id":"5"}}
+    {"country": "France", "year": 2018}
+    {"index":{"_id":"5"}}
+    {"country": "Argentina", "year": 2022}

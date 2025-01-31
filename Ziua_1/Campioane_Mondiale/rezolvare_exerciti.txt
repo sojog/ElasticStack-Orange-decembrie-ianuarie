@@ -1,0 +1,243 @@
+GET  _cluster/health
+
+# Listarea tuturor indicilor 
+GET _cat/indices
+
+# Crearea unui indice cu numele campioane
+PUT /campioane
+
+# Cate elemente sunt - query general
+GET /campioane/_search
+
+POST /campioane/_doc
+{"country": "Uruguay", "year": 1930}
+
+POST /campioane/_doc/2
+{"country": "Italy", "year": 1934}
+
+POST /campioane/_doc/3
+{
+    "country": "Italy",
+    "year": 1938
+}
+
+POST /campioane/_doc
+{"country": "Uruguay", "year": 1950}
+
+POST /campioane/_bulk
+{"index":{"_id":"5"}}
+{"country": "West Germany", "year": 1954}
+{"index":{"_id":"6"}}
+{"country": "Brazil", "year": 1958}
+{"index":{"_id":"7"}}
+{"country": "Brazil", "year": 1962}
+
+# Stergerea unui index
+# DELETE /campione
+
+# Insert in bulk a unui index
+POST /campioane/_bulk
+{"index":{"_id":"1"}}
+{"country": "Uruguay", "year": 1930}
+{"index":{"_id":"2"}}
+{"country": "Italy", "year": 1934}
+{"index":{"_id":"3"}}
+{"country": "Italy", "year": 1938}
+{"index":{"_id":"4"}}
+{"country": "Uruguay", "year": 1950}
+{"index":{"_id":"5"}}
+{"country": "West Germany", "year": 1954}
+{"index":{"_id":"6"}}
+{"country": "Brazil", "year": 1958}
+{"index":{"_id":"7"}}
+{"country": "Brazil", "year": 1962}
+{"index":{"_id":"8"}}
+{"country": "England", "year": 1966}
+{"index":{"_id":"9"}}
+{"country": "Brazil", "year": 1970}
+{"index":{"_id":"10"}}
+{"country": "West Germany", "year": 1974}
+{"index":{"_id":"11"}}
+{"country": "Argentina", "year": 1978}
+{"index":{"_id":"12"}}
+{"country": "Italy", "year": 1982}
+{"index":{"_id":"13"}}
+{"country": "Argentina", "year": 1986}
+{"index":{"_id":"14"}}
+{"country": "West Germany", "year": 1990}
+{"index":{"_id":"15"}}
+{"country": "Brazil", "year": 1994}
+{"index":{"_id":"16"}}
+{"country": "France", "year": 1998}
+{"index":{"_id":"17"}}
+{"country": "Brazil", "year": 2002}
+{"index":{"_id":"18"}}
+{"country": "Italy", "year": 2006}
+{"index":{"_id":"19"}}
+{"country": "Spain", "year": 2010}
+{"index":{"_id":"20"}}
+{"country": "Germany", "year": 2014}
+{"index":{"_id":"21"}}
+{"country": "France", "year": 2018}
+{"index":{"_id":"22"}}
+{"country": "Argentina", "year": 2022}
+    
+# Cautare cu search (default = 10)
+GET /campioane/_search
+
+# Cate elemente returneaza
+GET /campioane/_search
+{ "size":22 }
+
+GET /campioane/_search
+{ "size":100 }
+
+POST /campioane/_doc
+{
+  "country":"Romania",
+  "year":2026
+}
+
+POST /campioane/_delete_by_query
+{
+  "query": {
+      "term": {
+        "year": {
+          "value": 2026
+        }
+      }
+    
+  }
+}
+
+GET campioane/_search
+{
+  "query": {
+      "term": {
+        "year": {
+          "value": 2026
+        }
+      }
+    
+  }
+}
+
+# Gasirea primului an
+GET campioane/_search
+{
+  "size":1, 
+  "sort": [
+    {
+      "year": {
+        "order": "asc"
+      }
+    }
+  ]
+}
+
+
+# Gasirea primului an
+GET campioane/_search
+{
+  "size":1, 
+  "sort": [
+    {
+      "year": {
+        "order": "asc"
+      }
+    }
+  ],
+  "_source":["year"]
+}
+
+
+# Cine a castigat cel mai recent 
+GET campioane/_search
+{
+  "size":1, 
+  "_source":["country"],
+  "sort": [
+    {
+      "year": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+# Cum fac sa gasesc tari care au castigat dupa 
+GET campioane/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "lte": 1950
+      }
+    }
+  }
+}
+
+# Cum fac sa gasesc tari care au castigat dupa 
+GET campioane/_search
+{
+  "query": {
+    "range": {
+      "year": {
+        "gte": 1950,
+        "lte":2000
+      }
+    }
+  },
+  "size":13
+}
+
+# Cate a castigat Brazilia
+GET campioane/_search
+{ "query": 
+  {
+      "term": {
+        "country": {
+          "value": "Brazil"
+        }
+      }
+  }
+}
+
+GET campioane/_mapping
+
+# Cautarea dupa numele tarii
+GET campioane/_search
+{
+  "query": {
+    "match": {
+      "country": "Brazil"
+    }
+  }
+}
+
+GET campioane/_search 
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+              "country": "Brazil"
+            }
+        },
+        {
+          "range": {
+          "year": {
+              "gte": 1950,
+              "lte":2000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+

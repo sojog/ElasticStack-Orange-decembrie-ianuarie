@@ -1,0 +1,25 @@
+[
+    {"country": "Uruguay", "year": 1930},
+    {"country": "Italy", "year": 1934},
+    {"country": "Italy", "year": 1938},
+    {"country": "Uruguay", "year": 1950},
+    {"country": "West Germany", "year": 1954},
+    {"country": "Brazil", "year": 1958},
+    {"country": "Brazil", "year": 1962},
+    {"country": "England", "year": 1966},
+    {"country": "Brazil", "year": 1970},
+    {"country": "West Germany", "year": 1974},
+    {"country": "Argentina", "year": 1978},
+    {"country": "Italy", "year": 1982},
+    {"country": "Argentina", "year": 1986},
+    {"country": "West Germany", "year": 1990},
+    {"country": "Brazil", "year": 1994},
+    {"country": "France", "year": 1998},
+    {"country": "Brazil", "year": 2002},
+    {"country": "Italy", "year": 2006},
+    {"country": "Spain", "year": 2010},
+    {"country": "Germany", "year": 2014},
+    {"country": "France", "year": 2018},
+    {"country": "Argentina", "year": 2022}
+  ]
+  
